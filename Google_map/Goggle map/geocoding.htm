@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Basic goggle map Demo</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <style>
+        #map
+        {
+            height: 700px;
+            width: 1400px;
+        }
+    </style>
+    <body>
+    <div class="fixed-top">
+
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+    </div>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <h1> Maps </h1>
+        <div id="map"></div>
+        <br />
+        <strong style="font-size: 22px;">Address</strong>
+        <input type = "text" id="address" size="100" style="font-size: 22px;"/>
+        <br /> <br />
+        <button id="geocode" style="font-size: 22px;">Geocode</button>
+        <br /> <br />
+        <span id="coords" style="font-size: 22px;"></span>
+
+        
+        
+
+        <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYK7jcyizKTIo5JsqK7EiFF-kgl8FOEqU&callback=initMap&v=weekly"
+      async
+    ></script>
+    <script src = "education.js"></script>
+        <script>
+             function initMap(){     
+                map = new google.maps.Map(document.getElementById("map"),
+                {center: {lat: 43.2387, lng: -79.8881},
+                zoom:12,} );
+                
+                geocoder = new google.maps.Geocoder();
+
+                function codeAddress()
+                {
+                    var address = document.getElementById("address").value;
+                    
+                    geocoder.geocode ({'address': address}, function(results, status){
+                        if(status == "OK")
+                        {
+                            document.getElementById("coords").innerHTML = "coords: " + results[0].geometry.location.lat() + ", " + 
+                                                                            results[0].geometry.location.lng();
+                            
+                           var marker = new google.maps.Marker({
+                            position: results[0].geometry.location,
+                            // Alternative for the setMap(map)
+                            map: map
+
+                           });               
+
+                        }
+                        else
+                        {
+                            alert("Geocode was not successful for the following reason: " + status);
+                        }
+
+                    });
+
+                }
+                document.getElementById("geocode").onclick = codeAddress;
+
+             }
+
+
+        </script>
+
+    </body>
+</html>

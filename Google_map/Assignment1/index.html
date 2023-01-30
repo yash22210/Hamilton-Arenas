@@ -1,0 +1,313 @@
+<!-- This app is created using google maps. 
+@author: Yash Patel, 000842226, Date: 20-01-2022 -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hamilton Arenas</title>
+    </head>
+    <style>
+        #map
+        {
+            height: 700px;
+            width: 1100px;
+            width: 100%;
+            
+            border: 2px solid black;
+        }
+        #heading
+        {
+           text-align: center;
+           background-color: lightcoral; 
+
+        }
+        .button
+        {
+            width: 116px;
+            height: 30px;
+            background-color: lightcoral;
+            border: 1px solid black;
+            font-weight: bold;
+            border-radius: 20px;
+        }
+        .geolocate
+        {
+            width: 139px;
+            height: 30px;
+            background-color: lightskyblue;
+            border: 1px solid black;
+            font-weight: bold;
+            border-radius: 20px;
+
+        }
+        h2
+        {
+            text-align: center;
+            background-color: lightsalmon;
+            border-radius: 20px;
+        }
+        body
+        {
+            background-color: lightskyblue;
+        }
+
+    </style>
+    <body>
+        <h1 id="heading"> Hamilton Arenas</h1>
+        <div id="map"></div>
+        <h2>Filter the following markers with different community:</h2>
+        <p>Click the following button: </p>
+        <button id="Hamilton" class = "button"> Hamilton</button>
+        <button id="StoneyCreek" class = "button"> Stoney Creek</button>
+        <button id="Ancaster" class = "button"> Ancaster</button>
+        <button id="Dundas" class = "button"> Dundas</button>
+        <button id="all" class = "button"> Display All</button>
+        <h2>Want to see your location on the map?</h2>
+        <p>Click the following button: </p>
+        <button id="geolocate" class = "geolocate" > See Your Location</button>
+        <h2>
+            Enter the address to add the marker on google map!
+        </h2>
+        <strong style="font-size: 22px;">Address</strong>
+        <input type = "text" id="address" size="100" style="font-size: 22px;"/>
+        <button id="geocode" style="font-size: 22px;">Search!</button>
+        <br /> <br />
+        <h2> Get Direction (Cycling)</h2>
+        <div class = "info">
+            <h3><strong style="font-size: 22px;">From: </strong></body></h3>
+            <h6><strong style="font-size: 19px;">Enter the address: </strong></h6>
+              <input type="text" id="start" style="width:500px">
+            </select>
+
+            <h3><strong style="font-size: 22px;">End: </strong></body></h3>
+            <select id="destination">  
+            <option  value="680 Hwy 8, Rockton ,Onatrio">Beverly Arena</option>
+            <option value="150 Folkstone Avenue,Onatrio">Bill Friday Lawfield Arena</option>
+            <option value="1496 Centre Road,Onatrio">Carlisle Arena</option>
+            <option value="91 Chedmac Drive,Onatrio">Chedoke Twin Pad Arena</option>
+            <option value="81 Macklin Street North,Onatrio">Coronation Arena</option>
+            <option value="111 Burlington Street East,Onatrio, Canada">Eastwood Arena</option>
+            <option value="388 First Road East,Onatrio">F.H. Sherman Arena</option>
+            <option value="101 York Boulevard,Onatrio">FirstOntario Centre</option>
+            <option value="610 South Service Road,Onatrio">Gateway Ice Centre</option>
+            <option value="4300 Binbrook Road,Onatrio">Glanbrook Arena</option>
+            <option value="1911 Barton Street East,Onatrio">Hamilton Doublerink Arena</option>
+            <option value="27 Highway No. 5 West,Onatrio">Harry Howell Arena</option>
+            <option value="400 Queensdale Avenue East,Onatrio">Inch Park Arena</option>
+            <option value="35 Market Street South,Onatrio">J.L. Grightmire (Market Street) Arena</option>
+            <option value="710 Mountain Brow Boulevard,Onatrio">Mohawk 4 Ice Centre</option>
+            <option value="385 Jerseyville Road West,Onatrio">Morgan Firestone Arena</option>
+            <option value="25 Hester Street, Hamilton,Onatrio">Mountain (Dave Andreychuk) Arena</option>
+            <option value="1770 Main Street East,Onatrio">Pat Quinn Parkdale Arena</option>
+            <option value="100 Greenhill Avenue,Onatrio">Rosedale Arena</option>
+            <option value="24 Sherwood Park Road,Canada">Saltfleet Arena</option>
+            <option value="29 Orchard Drive,Onatrio">Spring Valley Arena</option>
+            <option value="37 King Street West,Onatrio">Stoney Creek Arena</option>
+            <option value="970 Paramount Drive,Onatrio">Valley Park Arena</option>
+            <option value="1249 Wilson Street East,Onatrio">Wentworth Arenas</option>
+            <option value="Westoby Arena, Hamilton">Westoby (Olympic) Arena</option>
+            </select>
+
+            <button id="direction"> Get Direction</button>
+        </div>
+          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        
+        
+        
+
+        <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYK7jcyizKTIo5JsqK7EiFF-kgl8FOEqU&callback=initMap&v=weekly"
+      async
+    ></script>
+    <script src = "js/Arenas.js"></script>
+        <script>
+             function initMap(){     
+                map = new google.maps.Map(document.getElementById("map"),
+                {center: {lat: 43.2487, lng: -79.8481},
+                zoom:11,} );
+
+                const infowindow = new google.maps.InfoWindow();
+
+                contentString ="\n"
+
+                // Funtion used to open the info window when the user clicks at the marker.
+                marker_clicked = function(){
+                    // first close the marker if its open
+                infowindow.close();
+                // add the content 
+                infowindow.setContent( "<strong>"+ this.NAME + "</strong>"+ contentString +"<br>"+ "<strong>Address: </strong>"+ this.ADDRESS +"<br>"+  this.IMAGE);
+                // open the info window with the content set above
+                infowindow.open(map, this);
+                }
+
+                let arenas = []
+
+                // Get the coordinates of all the arenas from the data to show markers in map
+                for(i=0;i < Arena.length; i++)
+                {
+                    arena_marker = new google.maps.Marker({
+                        position: {lat: parseFloat(Arena[i].properties.LATITUDE),
+                                   lng:  parseFloat(Arena[i].properties.LONGITUDE)},
+                        
+                        title: Arena[i].properties.NAME,
+                       
+                    });
+                // Display all the markers in the Map
+                    arena_marker.setMap(map);
+                    //Add the data to the marker for displaying the information in info window
+
+                    arena_marker.NAME = Arena[i].properties.NAME;
+                    arena_marker.IMAGE = Arena[i].properties.Image;
+                    arena_marker.ADDRESS = Arena[i].properties.ADDRESS;  
+                    //Listener for popping up the info window after the marker is clicked
+                    arena_marker.addListener("click", marker_clicked);
+
+                    arenas.push(arena_marker);
+                }
+                // funtion to display only marker that is located in Hamilton Community
+                function filterHamilton()
+                {
+                    for (let i = 0; i < Arena.length; i++)
+                    {
+                        if(Arena[i].properties.COMMUNITY == "Hamilton")
+                             arenas[i].setMap(map);
+                        else
+                             arenas[i].setMap(null);   
+                    }
+                }
+                document.getElementById("Hamilton").onclick = filterHamilton;
+                
+                // funtion to display only marker that is located in Stoney Creek Community
+                function filterStoneyCreek()
+                {
+                    for (let i = 0; i < Arena.length; i++)
+                    {
+                        if(Arena[i].properties.COMMUNITY == "Stoney Creek")
+                             arenas[i].setMap(map);
+                        else
+                             arenas[i].setMap(null);   
+                    }
+                }
+                document.getElementById("StoneyCreek").onclick = filterStoneyCreek;
+                
+                // funtion to display only marker that is located in Ancaster Community
+                function filterAncaster()
+                {
+                    for (let i = 0; i < Arena.length; i++)
+                    {
+                        if(Arena[i].properties.COMMUNITY == "Ancaster")
+                             arenas[i].setMap(map);
+                        else
+                             arenas[i].setMap(null);   
+                    }
+                }
+                document.getElementById("Ancaster").onclick = filterAncaster;
+
+                // funtion to display only marker that is located in Dundas Community
+                function filterDundas()
+                {
+                    for (let i = 0; i < Arena.length; i++)
+                    {
+                        if(Arena[i].properties.COMMUNITY == "Dundas")
+                             arenas[i].setMap(map);
+                        else
+                             arenas[i].setMap(null);   
+                    }
+                }
+                document.getElementById("Dundas").onclick = filterDundas;
+
+                // funtion to display all the markers 
+                function filterDisplayAll()
+                {
+                    for (let i = 0; i < Arena.length; i++)
+                    {
+                             arenas[i].setMap(map); 
+                    }
+                }
+                document.getElementById("all").onclick = filterDisplayAll;
+
+                 // Funtion makes the marker for the user location.
+                function showPositionOnMap(position)
+                {
+                    user_location = new google.maps.Marker({
+                        position: { lat: position.coords.latitude,
+                                    lng: position.coords.longitude},
+                                    title: "Your Location",
+                                    icon: "http://maps.google.com/mapfiles/kml/paddle/blu-circle.png"
+
+                        }
+
+                    );
+                    user_location.setMap(map);
+                }
+                
+                document.getElementById("geolocate").onclick = function()
+             {
+                 navigator.geolocation.getCurrentPosition(showPositionOnMap);
+             }
+
+                    geocoder = new google.maps.Geocoder();
+
+                // Funtion to add the marker on the map by getting location from the user input (Geolocation)
+                function codeAddress()
+                    {
+                        var address = document.getElementById("address").value;
+                        
+                        geocoder.geocode ({'address': address}, function(results, status){
+                            if(status == "OK")
+                            {       
+                            var marker = new google.maps.Marker({
+                                position: results[0].geometry.location,
+                                // Alternative for the setMap(map)
+                                map: map,
+                                title: "Geolocation",
+                                icon: "http://maps.google.com/mapfiles/kml/paddle/grn-blank.png"
+
+                            });               
+
+                            }
+                            else
+                            {
+                                alert("Geocode was not successful for the following reason: " + status);
+                            }
+
+                        });
+
+                    }
+                    document.getElementById("geocode").onclick = codeAddress;
+
+                
+
+                // Funtion to get direction from origin to destination
+                directionsService = new google.maps.DirectionsService();
+                directionsRenderer = new google.maps.DirectionsRenderer();
+                function getDirection()
+                {
+                
+
+                   
+                    request = 
+                {
+                    origin:  {query: document.getElementById("start").value },
+                    destination: { query: document.getElementById("destination").value},
+                    travelMode: "BICYCLING"   
+                };
+
+                directionsService.route(request, function(result, status){
+                    if (status == "OK")
+                    {
+                        directionsRenderer.setDirections(result);
+                        
+                    }
+                });
+                directionsRenderer.setMap(map);
+                }
+                
+                
+                document.getElementById("direction").onclick = getDirection;
+                
+            }
+
+        </script>
+    </body>
+
+</html>

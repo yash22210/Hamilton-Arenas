@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Basic goggle map Demo</title>
+    </head>
+    <style>
+        #map
+        {
+            height: 700px;
+            width: 1400px;
+        }
+    </style>
+    <body>
+        <div id="map"></div>
+        <br />
+        <button id="geolocate">Geolocate</button>
+        <div id = "details"></div>
+
+        <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYK7jcyizKTIo5JsqK7EiFF-kgl8FOEqU&callback=initMap&v=weekly"
+      async
+    ></script>
+        <script>
+            
+            function initMap(){     
+            map = new google.maps.Map(document.getElementById("map"),
+            {center: {lat: 43.2387, lng: -79.8881},
+             zoom:12,} );
+
+             var thf_loc = {lat:43.2522, lng: -79.8301}
+             thf_marker = new google.maps.Marker({
+                 position: thf_loc,
+                 title: "Tim Hortons Field"
+             });
+             thf_marker.setMap(map);
+
+
+             contentString = 
+             "<h3>Tim Hortons Field</h3>" +
+             "<p>Home of the <a href=\"https://ticats.ca/\">Hamilton Tiger</p>"
+            const infowindow = new google.maps.InfoWindow({
+                 content: contentString
+             });
+
+            thf_marker.addListener("click", function()
+            {
+             infowindow.open({
+                 anchor: thf_marker,
+                 shouldFocus: false
+
+             });
+             document.getElementById("details").innerHTML = "Tim Hortons Field";
+            });
+
+             // Funtion makes the marker for the user location.
+            function showPositionOnMap(pos)
+             {
+                user_location = new google.maps.Marker({
+                    position: { lat: pos.coords.latitude,
+                                lng: pos.coords.longitude},
+                                title: "Your Location",
+                                icon: "http://maps.google.com/mapfiles/kml/shapes/ranger_station.png"
+
+                    }
+
+                );
+                user_location.setMap(map);
+             }
+
+            document.getElementById("geolocate").onclick = function()
+             {
+                 navigator.geolocation.getCurrentPosition(showPositionOnMap);
+             }
+        }
+
+
+            
+
+
+
+        </script>
+
+    </body>
+</html>

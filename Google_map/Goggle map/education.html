@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Basic goggle map Demo</title>
+    </head>
+    <style>
+        #map
+        {
+            height: 700px;
+            width: 1400px;
+        }
+    </style>
+    <body>
+        <div id="map"></div>
+        <br />
+        <button id ="elementary">Elementary</button>
+        <button id ="all">All</button>
+        
+
+        <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYK7jcyizKTIo5JsqK7EiFF-kgl8FOEqU&callback=initMap&v=weekly"
+      async
+    ></script>
+    <script src = "education.js"></script>
+        <script>
+             function initMap(){     
+                map = new google.maps.Map(document.getElementById("map"),
+                {center: {lat: 43.2387, lng: -79.8881},
+                zoom:12,} );
+
+                infowindow = new google.maps.InfoWindow();
+
+                // Funtion used to open the info window when the user clicks at the marker.
+                marker_clicked = function(){
+                    // first close the marker if its open
+                infowindow.close();
+                // add the content 
+                infowindow.setContent(this.NAME);
+                // open the info window with the content set above
+                infowindow.open(map, this);
+                }
+                let markers = [];
+                
+                for (i=0;i < education.length; i++)
+                {
+                    if(education[i].properties.CATEGORY == "Elementary School")
+                    new_icon = "http://maps.google.com/mapfiles/kml/paddle/grn-blank.png";
+                    else if(education[i].properties.CATEGORY == "Secondary School")
+                    new_icon = "http://maps.google.com/mapfiles/kml/paddle/purple-blank.png";
+                    else
+                    new_icon = "http://maps.google.com/mapfiles/kml/paddle/blu-blank.png";
+
+                    new_marker = new google.maps.Marker({
+                        position: {lat: parseFloat(education[i].properties.LATITUDE),
+                                   lng:  parseFloat(education[i].properties.LONGITUDE)},
+                        
+                        title: education[i].properties.NAME ,
+                        icon: new_icon
+                    });
+
+                    new_marker.setMap(map);
+                    new_marker.NAME = education[i].properties.NAME;
+                    new_marker.CATEGORY = education[i].properties.CATEGORY;
+                    new_marker.addListener("click", marker_clicked);
+
+                    markers.push(new_marker);
+                }
+                // Function will filter the school type while using the loop (Category).
+                function filterElementary()
+                {
+                    for (let i = 0; i < markers.length; i++)
+                    {
+                        if(markers[i].CATEGORY == "Elementary School")
+                            markers[i].setMap(map);
+                        else
+                            markers[i].setMap(null);   
+                    }
+                }
+                document.getElementById("elementary").onclick = filterElementary;
+
+                function showAll()
+                {
+                    for (let i = 0; i < markers.length; i++)
+                    {
+                        markers[i].setMap(map);                        
+                    }
+                }
+                document.getElementById("all").onclick = showAll;
+             }
+        </script>
+
+    </body>
+</html>

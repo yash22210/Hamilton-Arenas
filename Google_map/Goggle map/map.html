@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Basic goggle map Demo</title>
+    </head>
+    <style>
+        #map
+        {
+            height: 700px;
+            width: 1400px;
+        }
+    </style>
+    <body>
+        <div id="map"></div>
+
+        <button id="add_aviation">Add Airport Marker</button>
+        <button id="remove_funnell">Remove Fennull Marker</button> 
+        <button id="add_funnell">Add Fennull Marker</button> 
+        <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYK7jcyizKTIo5JsqK7EiFF-kgl8FOEqU&callback=initMap&v=weekly"
+      async
+    ></script>
+        <script>
+            // Funtion to add markers
+            function initMap(){     
+            map = new google.maps.Map(document.getElementById("map"),
+            {center: {lat: 43.2387, lng: -79.8881},
+             zoom:12,} );
+
+            mohawk_marker = new google.maps.Marker({
+                position: {lat:33.757,  lng: -84.396},
+                title: "ScotiaBank Arena"
+            });
+            mohawk_marker.setMap(map);
+
+            
+           }
+           // Funtion to remove the funnell marker from the map
+           function removeFennellMarker()
+           {
+               mohawk_marker.setMap(null);
+           }
+           document.getElementById("remove_funnell").onclick = removeFennellMarker;
+
+            // Funtion to add the funnell marker from the map
+            function addFennellMarker()
+           {
+               mohawk_marker.setMap(map);
+           }
+           document.getElementById("add_funnell").onclick = addFennellMarker;
+
+           
+           // Funtion to add markers when the button is clicked
+            function add_aviationCampus(){
+                // Set location as a varible to use in the funtion
+                let aviation = {lat: 43.1728, lng: -79.9317}
+
+                aviation_marker = new google.maps.Marker({
+                    position: aviation,
+                    title: "mohawk college Aviation Campus"
+                });
+                aviation_marker.setMap(map);
+
+            }
+            document.getElementById("add_aviation").onclick = add_aviationCampus;
+
+            
+
+
+
+        </script>
+
+    </body>
+</html>

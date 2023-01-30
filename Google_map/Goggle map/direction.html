@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Basic goggle map with directionsService</title>
+    </head>
+    <style>
+        #map
+        {
+            height: 700px;
+            width: 1400px;
+        }
+    </style>
+    <body>
+        <div id="map"></div>
+        <br />
+        <strong style="font-size: 22px;">Address</strong>
+        <input type = "text" id="address" size="100" style="font-size: 22px;"/>
+        <br /> <br />
+        <button id="geocode" style="font-size: 22px;">Geocode</button>
+        <br /> <br />
+        <span id="coords" style="font-size: 22px;"></span>
+        <br /><br />
+        <div>
+            <strong>Start: </strong>
+            <select id="start">
+              <option value="chicago, il">Chicago</option>
+              <option value="st louis, mo">St Louis</option>
+              <option value="joplin, mo">Joplin, MO</option>
+              <option value="oklahoma city, ok">Oklahoma City</option>
+              <option value="amarillo, tx">Amarillo</option>
+              <option value="gallup, nm">Gallup, NM</option>
+              <option value="flagstaff, az">Flagstaff, AZ</option>
+              <option value="winona, az">Winona</option>
+              <option value="kingman, az">Kingman</option>
+              <option value="barstow, ca">Barstow</option>
+              <option value="san bernardino, ca">San Bernardino</option>
+              <option value="los angeles, ca">Los Angeles</option>
+            </select>
+            <select id="end">
+              <option value="joplin, mo">Joplin, MO</option>
+              <option value="ScotiaBank Arena, Ontario">Toronto</option>
+              <option value="amarillo, tx">Amarillo</option>
+              <option value="gallup, nm">Gallup, NM</option>
+              <option value="flagstaff, az">Flagstaff, AZ</option>
+              <option value="winona, az">Winona</option>
+              <option value="kingman, az">Kingman</option>
+              <option value="barstow, ca">Barstow</option>
+              <option value="san bernardino, ca">San Bernardino</option>
+              <option value="los angeles, ca">Los Angeles</option>
+            </select>
+        </div>
+        
+
+        
+        
+
+        <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYK7jcyizKTIo5JsqK7EiFF-kgl8FOEqU&callback=initMap&v=weekly"
+      async
+    ></script>
+            <script>
+             function initMap()
+             {    
+                directionsService = new google.maps.DirectionsService();
+                directionsRenderer = new google.maps.DirectionsRenderer();
+
+                map = new google.maps.Map(document.getElementById("map"),
+                {center: {lat: 43.2387, lng: -79.8881},
+                zoom:12,} 
+                );
+
+                directionsRenderer.setMap(map);
+
+                request = 
+                {
+                    origin:  { query: document.getElementById("start").value},
+                    destination: { query: document.getElementById("end").value},
+                    travelMode: "TRANSIT"   
+                };
+
+                directionsService.route(request, function(result, status){
+                    if (status == "OK")
+                    {
+                        directionsRenderer.setDirections(result);
+                        
+                    }
+                });
+
+             }
+
+
+
+        </script>
+
+    </body>
+</html>
